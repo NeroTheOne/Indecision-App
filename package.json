@@ -1,6 +1,14 @@
 {
   "dependencies": {
+    "babel-preset-env": "^1.6.1",
+    "babel-preset-react": "^6.24.1",
     "express": "^4.16.2",
     "hbs": "^4.0.1"
-  }
+  },
+  "name": "IndecisionApp",
+  "version": "1.0.0",
+  "main": "index.js",
+  "repository": "https://github.com/NeroTheOne/Indecision-App.git",
+  "author": "Janmarc <janmarc.peconcillo@gmail.com>",
+  "license": "MIT"
 }
