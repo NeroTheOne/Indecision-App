@@ -1,90 +1,89 @@
 'use strict';
 
-var appRoot = document.getElementById('app');
+var _createClass = function () { function defineProperties(target, props) { for (var i = 0; i < props.length; i++) { var descriptor = props[i]; descriptor.enumerable = descriptor.enumerable || false; descriptor.configurable = true; if ("value" in descriptor) descriptor.writable = true; Object.defineProperty(target, descriptor.key, descriptor); } } return function (Constructor, protoProps, staticProps) { if (protoProps) defineProperties(Constructor.prototype, protoProps); if (staticProps) defineProperties(Constructor, staticProps); return Constructor; }; }();
 
-var user = {
-  name: 'Nero',
-  subtitle: "He is the one",
-  age: '20',
-  options: []
-};
+function _classCallCheck(instance, Constructor) { if (!(instance instanceof Constructor)) { throw new TypeError("Cannot call a class as a function"); } }
 
-var onFormSubmit = function onFormSubmit(e) {
-  e.preventDefault();
-  var option = e.target.elements.option.value;
-  if (option) {
-    user.options.push(option);
-    e.target.elements.option.value = '';
-    renderApp();
+function _possibleConstructorReturn(self, call) { if (!self) { throw new ReferenceError("this hasn't been initialised - super() hasn't been called"); } return call && (typeof call === "object" || typeof call === "function") ? call : self; }
+
+function _inherits(subClass, superClass) { if (typeof superClass !== "function" && superClass !== null) { throw new TypeError("Super expression must either be null or a function, not " + typeof superClass); } subClass.prototype = Object.create(superClass && superClass.prototype, { constructor: { value: subClass, enumerable: false, writable: true, configurable: true } }); if (superClass) Object.setPrototypeOf ? Object.setPrototypeOf(subClass, superClass) : subClass.__proto__ = superClass; }
+
+var Counter = function (_React$Component) {
+  _inherits(Counter, _React$Component);
+
+  function Counter(props) {
+    _classCallCheck(this, Counter);
+
+    var _this = _possibleConstructorReturn(this, (Counter.__proto__ || Object.getPrototypeOf(Counter)).call(this, props));
+
+    _this.handleAdd = _this.handleAdd.bind(_this);
+    _this.handleMinus = _this.handleMinus.bind(_this);
+    _this.handleReset = _this.handleReset.bind(_this);
+    _this.state = {
+      count: 0
+    };
+    return _this;
   }
-};
 
-var onRemoveAll = function onRemoveAll(e) {
-  e.preventDefault();
-  user.options = [];
-  renderApp();
-};
+  _createClass(Counter, [{
+    key: 'handleAdd',
+    value: function handleAdd() {
+      this.setState(function (prevState) {
+        return {
+          count: prevState.count + 1
+        };
+      });
+    }
+  }, {
+    key: 'handleMinus',
+    value: function handleMinus() {
+      this.setState(function (prevState) {
+        return {
+          count: prevState.count - 1
+        };
+      });
+    }
+  }, {
+    key: 'handleReset',
+    value: function handleReset() {
+      this.setState(function () {
+        return {
+          count: 0
+        };
+      });
+    }
+  }, {
+    key: 'render',
+    value: function render() {
+      return React.createElement(
+        'div',
+        null,
+        React.createElement(
+          'h1',
+          null,
+          'Counter: ',
+          this.state.count
+        ),
+        React.createElement(
+          'button',
+          { onClick: this.handleAdd },
+          '+'
+        ),
+        React.createElement(
+          'button',
+          { onClick: this.handleReset },
+          'reset'
+        ),
+        React.createElement(
+          'button',
+          { onClick: this.handleMinus },
+          '-'
+        )
+      );
+    }
+  }]);
 
-var onMakeDecesion = function onMakeDecesion() {
-  var random = Math.floor(Math.random() * user.options.length);
-  console.log(random);
-  alert(user.options[random]);
-};
+  return Counter;
+}(React.Component);
 
-var renderApp = function renderApp() {
-  var template = React.createElement(
-    'div',
-    null,
-    React.createElement(
-      'h1',
-      null,
-      user.name ? user.name : "Anonymous"
-    ),
-    user.subtitle && React.createElement(
-      'p',
-      null,
-      user.subtitle
-    ),
-    user.age >= 18 && React.createElement(
-      'p',
-      null,
-      'Age: ',
-      user.age
-    ),
-    React.createElement(
-      'ol',
-      null,
-      user.options.map(function (option) {
-        return React.createElement(
-          'li',
-          { key: option },
-          option
-        );
-      })
-    ),
-    React.createElement(
-      'button',
-      { onClick: onRemoveAll },
-      'Remove All'
-    ),
-    React.createElement(
-      'form',
-      { onSubmit: onFormSubmit },
-      React.createElement('input', { type: 'text', name: 'option' }),
-      React.createElement(
-        'button',
-        { type: 'submit' },
-        'Add option'
-      )
-    ),
-    React.createElement(
-      'button',
-      { disabled: user.options.length == 0, onClick: onMakeDecesion },
-      'What should I do?'
-    )
-  );
-
-  ReactDOM.render(template, appRoot);
-};
-
-renderApp();
+ReactDOM.render(React.createElement(Counter, null), document.getElementById('app'));
