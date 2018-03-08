@@ -5,7 +5,7 @@ class IndesicionApp extends React.Component {
     this.handlePick = this.handlePick.bind(this);
     this.handleAddOption = this.handleAddOption.bind(this);
     this.state = {
-      options: []
+      options: props.options
     }
   }
   handleDeleteOptions() {
@@ -50,48 +50,44 @@ class IndesicionApp extends React.Component {
       </div>
     );
   };
+};
+
+IndesicionApp.defaultProps = {
+  options: ['Default1', 'Default2']
+};
+
+const Header = () => {
+  return (
+    <div>
+      <h1>Indesicion App</h1>
+      <p>Put your life in the hands of a computer</p>
+    </div>
+  );
+};
+
+const Action = (props) => {
+  return (
+    <div>
+      <button onClick={props.handlePick} disabled={!props.hasOptions}>What should I do?</button>
+    </div>
+  );
+};
+
+const Options = (props) => {
+  return (
+    <div>
+      <button onClick={props.handleDeleteOptions}>Remove All</button>
+      {props.options.map((option) => <Option key={option} option={option}/>)}
+    </div>
+  );
 }
 
-class Header extends React.Component {
-  render() {
-    return (
-      <div>
-        <h1>Indesicion App</h1>
-        <p>Put your life in the hands of a computer</p>
-      </div>
-    );
-  };
-}
-
-class Action extends React.Component {
-  render() {
-    return (
-      <div>
-        <button onClick={this.props.handlePick} disabled={!this.props.hasOptions}>What should I do?</button>
-      </div>
-    );
-  }
-}
-
-class Options extends React.Component {
-  render() {
-    return (
-      <div>
-        <button onClick={this.props.handleDeleteOptions}>Remove All</button>
-        {this.props.options.map((option) => <Option key={option} option={option}/>)}
-      </div>
-    );
-  };
-}
-
-class Option extends React.Component {
-  render() {
-    return (
-      <div>
-        <p>{this.props.option}</p>
-      </div>
-    );
-  };
+const Option = (props) => {
+  return (
+    <div>
+      <p>{props.option}</p>
+    </div>
+  );
 }
 
 class AddOption extends React.Component {
@@ -134,7 +130,7 @@ class AddOption extends React.Component {
 }
 
 const appRoot = document.getElementById('app');
-ReactDOM.render(<IndesicionApp/>, appRoot)
+ReactDOM.render(<IndesicionApp />, appRoot)
 
 
 // --------- NON-COMPONENT ------------
