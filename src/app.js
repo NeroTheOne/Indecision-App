@@ -9,11 +9,9 @@ class IndesicionApp extends React.Component {
     }
   }
   handleDeleteOptions() {
-    this.setState(() => {
-      return {
-          options: []
-      };
-    });
+    this.setState(() => ({
+      options: []
+    }));
   }
   handlePick() {
     let random = Math.floor(Math.random() * this.state.options.length);
@@ -53,7 +51,7 @@ class IndesicionApp extends React.Component {
 };
 
 IndesicionApp.defaultProps = {
-  options: ['Default1', 'Default2']
+  options: []
 };
 
 const Header = () => {
@@ -104,11 +102,9 @@ class AddOption extends React.Component {
     const option = e.target.elements.option.value.trim();
     const error = this.props.handleAddOption(option);
 
-    this.setState(() => {
-      return {
-        error
-      };
-    });
+    this.setState(() => ({
+      error
+    }));
 
     e.target.elements.option.value = '';
   }
