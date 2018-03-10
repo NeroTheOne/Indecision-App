@@ -1,22 +1,56 @@
+import React from 'react';
+import ReactDOM from 'react-dom';
+
 class IndesicionApp extends React.Component {
   constructor(props) {
     super(props);
     this.handleDeleteOptions = this.handleDeleteOptions.bind(this);
     this.handlePick = this.handlePick.bind(this);
     this.handleAddOption = this.handleAddOption.bind(this);
+    this.handleDeleteOption = this.handleDeleteOption.bind(this);
     this.state = {
-      options: props.options
+      options: []
     }
   }
+
+  componentDidMount() {
+    try {
+      console.log('fetching data');
+      const json = localStorage.getItem('options');
+      const options = JSON.parse(json);
+
+      if (options) this.setState(() => ({ options }));
+    } catch (e) {
+
+    }
+  }
+
+  componentDidUpdate(prevProps, prevState) {
+    if (prevState.options.length !== this.state.options.length) {
+      console.log('saving data');
+      const json = JSON.stringify(this.state.options);
+      localStorage.setItem('options', json);
+    }
+  }
+
+  handleDeleteOption(optionToRemove) {
+    console.log('fired handleDeleteOption');
+    this.setState((prevState) => ({
+      options: prevState.options.filter((option) => option !== optionToRemove)
+    }));
+  }
+
   handleDeleteOptions() {
     this.setState(() => ({
       options: []
     }));
   }
+
   handlePick() {
     let random = Math.floor(Math.random() * this.state.options.length);
     alert(this.state.options[random]);
   }
+
   handleAddOption(option) {
     if (!option) {
       return 'Enter a valid value to add item';
@@ -30,6 +64,7 @@ class IndesicionApp extends React.Component {
       };
     });
   }
+
   render() {
     return (
       <div>
@@ -41,6 +76,7 @@ class IndesicionApp extends React.Component {
         <Options
           options={this.state.options}
           handleDeleteOptions={this.handleDeleteOptions}
+          handleDeleteOption={this.handleDeleteOption}
         />
         <AddOption
           handleAddOption={this.handleAddOption}
@@ -50,9 +86,6 @@ class IndesicionApp extends React.Component {
   };
 };
 
-IndesicionApp.defaultProps = {
-  options: []
-};
 
 const Header = () => {
   return (
@@ -75,7 +108,16 @@ const Options = (props) => {
   return (
     <div>
       <button onClick={props.handleDeleteOptions}>Remove All</button>
-      {props.options.map((option) => <Option key={option} option={option}/>)}
+      {props.options.length == 0 && <p>Please add an option to get started!</p>}
+      {
+        props.options.map((option) => (
+          <Option
+            key={option}
+            optionText={option}
+            handleDeleteOption={props.handleDeleteOption}
+          />
+        ))
+      }
     </div>
   );
 }
@@ -83,7 +125,14 @@ const Options = (props) => {
 const Option = (props) => {
   return (
     <div>
-      <p>{props.option}</p>
+      <p>{props.optionText}</p>
+      <button
+        onClick={(e) => {
+          props.handleDeleteOption(props.optionText)
+        }}
+      >
+        remove
+      </button>
     </div>
   );
 }
@@ -106,7 +155,9 @@ class AddOption extends React.Component {
       error
     }));
 
-    e.target.elements.option.value = '';
+    if (!error) {
+      e.target.elements.option.value = '';
+    }
   }
   render() {
     return (
