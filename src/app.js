@@ -1,5 +1,9 @@
 import React from 'react';
 import ReactDOM from 'react-dom';
+import AddOption from './components/AddOption';
+import Option from './components/Option';
+import Header from './components/Header';
+import Action from './components/Action';
 
 class IndesicionApp extends React.Component {
   constructor(props) {
@@ -86,24 +90,6 @@ class IndesicionApp extends React.Component {
   };
 };
 
-
-const Header = () => {
-  return (
-    <div>
-      <h1>Indesicion App</h1>
-      <p>Put your life in the hands of a computer</p>
-    </div>
-  );
-};
-
-const Action = (props) => {
-  return (
-    <div>
-      <button onClick={props.handlePick} disabled={!props.hasOptions}>What should I do?</button>
-    </div>
-  );
-};
-
 const Options = (props) => {
   return (
     <div>
@@ -122,59 +108,6 @@ const Options = (props) => {
   );
 }
 
-const Option = (props) => {
-  return (
-    <div>
-      <p>{props.optionText}</p>
-      <button
-        onClick={(e) => {
-          props.handleDeleteOption(props.optionText)
-        }}
-      >
-        remove
-      </button>
-    </div>
-  );
-}
-
-class AddOption extends React.Component {
-  constructor(props) {
-    super(props);
-    this.handleAddOption = this.handleAddOption.bind(this);
-    this.state = {
-      error: undefined
-    };
-  }
-  handleAddOption(e) {
-    e.preventDefault();
-
-    const option = e.target.elements.option.value.trim();
-    const error = this.props.handleAddOption(option);
-
-    this.setState(() => ({
-      error
-    }));
-
-    if (!error) {
-      e.target.elements.option.value = '';
-    }
-  }
-  render() {
-    return (
-      <div>
-        {this.state.error && (
-          <div>
-            <p>{this.state.error}</p>
-          </div>
-        )}
-        <form onSubmit={this.handleAddOption}>
-          <input type="text" name="option"/>
-          <button>Add option</button>
-        </form>
-      </div>
-    );
-  }
-}
 
 const appRoot = document.getElementById('app');
 ReactDOM.render(<IndesicionApp />, appRoot)
