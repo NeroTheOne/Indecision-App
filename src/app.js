@@ -1,6 +1,8 @@
 import React from 'react';
 import ReactDOM from 'react-dom';
 import IndesicionApp from './components/IndecisionApp';
+import 'normalize-css/normalize.css';
+import './style/style.scss';
 
 ReactDOM.render(<IndesicionApp />, document.getElementById('app'));
 
